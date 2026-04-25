@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Temperance | Portfolio</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      background-color: #000;
+    }
+
+    body {
+      background: url('https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/223710/ss_c73e57fc117e3722909a8afbb3de07be6569c96d.1920x1080.jpg?t=1643567513') no-repeat center center fixed;
+      background-size: cover;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      overflow: hidden;
+    }
+
+   /*made by nydrago do not copy*/
+    #enter-screen {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: #000;
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: opacity 1s ease;
+    }
+
+    .top-nav {
+      position: absolute;
+      top: 15px; 
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      gap: 35px;
+      z-index: 100;
+    }
+
+    .top-nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
+      text-transform: uppercase;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: opacity 0.3s;
+    }
+
+    .top-nav a.active { opacity: 1; }
+
+    .pill-positioner {
+      position: absolute;
+      top: 15px; 
+      left: 20px;
+      z-index: 100;
+    }
+
+    .type-pill {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 8px 20px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.9rem;
+    }
+
+    .center-box {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 550px;
+      padding: 15px 25px; 
+      background: rgba(255, 255, 255, 0.03); 
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 40px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 5;
+      display: none; 
+      flex-direction: column;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+     
+      overflow: hidden;
+    }
+
+    .active-pill {
+      display: flex !important;
+      opacity: 1;
+    }
+
+    .scrollable-pill {
+      max-height: 420px; 
+      overflow-y: auto;
+      padding-right: 10px;
+      
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+
+   
+    .scrollable-pill::-webkit-scrollbar { width: 4px; }
+    
+    .scrollable-pill::-webkit-scrollbar-track {
+      background: transparent;
+      margin: 20px 0; 
+    }
+
+    .scrollable-pill::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2); 
+      border-radius: 10px;
+    }
+
+    .box-pfp {
+      position: absolute;
+      top: 20px;
+      left: 25px;
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      border: 2px solid white;
+      object-fit: cover;
+    }
+
+    .box-title {
+      font-size: 1.8rem;
+      line-height: 1.2; 
+      margin-top: 10px; 
+      margin-bottom: 10px; 
+      letter-spacing: 1px;
+    }
+
+    .box-text {
+      font-size: 0.9rem;
+      line-height: 1.5;
+      opacity: 0.9;
+      margin-top: 15px; 
+    }
+
+    .social-btn {
+      color: white; 
+      text-decoration: none; 
+      background: rgba(255,255,255,0.05); 
+      padding: 10px 40px; 
+      border-radius: 20px; 
+      border: 1px solid rgba(255,255,255,0.1); 
+      width: 80%; 
+      transition: 0.3s;
+    }
+
+    .social-btn:hover { background: rgba(255,255,255,0.15); }
+
+    .video-wrapper {
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.1);
+      background: #000;
+      margin-top: 10px;
+    }
+
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 15px;
+    }
+
+    .cert-img { width: 100%; cursor: zoom-in; border-radius: 5px; }
+
+    #lightbox {
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    #lightbox img { max-width: 90%; max-height: 90%; }
+
+    .language-bar {
+      position: fixed;
+      bottom: 35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.05); 
+      backdrop-filter: blur(15px);
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      padding: 12px 35px;
+      gap: 30px;
+      z-index: 100;
+      transition: opacity 0.4s ease, transform 0.4s ease;
+    }
+
+    .language-bar img { height: 38px; opacity: 0.7; transition: 0.3s; }
+    .language-bar img:hover { transform: translateY(-8px) scale(1.2); opacity: 1; }
+
+    .cursor { display: inline-block; width: 2px; height: 14px; background-color: white; animation: blink 1s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+  </style>
+</head>
+<body>
+
+ <div id="enter-screen" onclick="startSite()" style="flex-direction: column; gap: 15px; text-align: center;">
+    <span style="letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-size: 11px; max-width: 80%;">
+      This Site Has No Mobile Support Because The Creator Believes No Developer Has No Computer.
+    </span>
+    <span style="letter-spacing: 5px; color: rgba(255,255,255,0.2); text-transform: uppercase; font-size: 12px; font-weight: bold;">
+      [ click to enter? ]
+    </span>
+  </div>
+
+  <div id="speaker-icon" onclick="handleSpeakerClick()" style="position: fixed; bottom: 25px; left: 25px; cursor: pointer; z-index: 1000; display: flex; align-items: center; gap: 10px;">
+    <svg id="speaker-svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.4; transition: 0.3s;">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+      <path id="speaker-wave" d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" style="display:none;"></path>
+    </svg>
+    <span id="speaker-msg" style="font-size: 12px; color: white; background: rgba(0,0,0,0.6); padding: 5px 10px; border-radius: 10px; opacity: 0; transition: opacity 0.3s; white-space: nowrap; pointer-events: none;"></span>
+  </div>
+
+<div style="display:none">
+  <iframe id="bg-audio" width="0" height="0" 
+    src="https://www.youtube.com/embed/Aox-rQT_Cv4?enablejsapi=1&autoplay=1&loop=1&playlist=Aox-rQT_Cv4&mute=0" 
+    allow="autoplay" frameborder="0">
+  </iframe>
+</div>
+  
+  <div id="lightbox" onclick="this.style.display='none'"><img src="" id="lightbox-img"></div>
+
+  <nav class="top-nav">
+    <a href="#" onclick="showSection('socials-section')">Socials</a>
+    <a href="#" id="home-nav" class="active" onclick="showSection('home-section')">Home</a>
+    <a href="#" onclick="showSection('projects-section')">Projects</a>
+    <a href="#" onclick="showSection('cert-section')">Certificates</a>
+  </nav>
+
+  <div class="pill-positioner">
+    <div class="type-pill">
+      <span>I'm a </span>
+      <span id="typing-text"></span>
+      <span class="cursor"></span>
+    </div>
+  </div>
+
+  <div id="home-section" class="center-box active-pill">
+    <img src="https://i.pinimg.com/originals/a5/81/7d/a5817dbba9f4f060a47ed72705f4e41e.jpg" class="box-pfp">
+    <h1 class="box-title" style="margin-left: 60px;">Hey, I'm Temperance</h1>
+    <p class="box-text">
+      I have been a programmer since the age of 9 and I've worked in multiple teams. 
+      I code in many languages as seen below. Check the socials tab to contact me.
+    </p>
+  </div>
+
+  <div id="socials-section" class="center-box">
+    <h1 class="box-title">Connect</h1>
+    <p class="box-text">Reach out for work or maybe even talk, oh and my email is nydrago.18@gmail.com</p>
+    <div style="display: flex; flex-direction: column; gap: 12px; align-items: center; margin-top: 15px;">
+      <a href="https://discordapp.com/users/1097091185455145044" target="_blank" class="social-btn">Discord: @nydrago</a>
+      <a href="https://www.reddit.com/user/nydrago/" target="_blank" class="social-btn">Reddit</a>
+      <a href="https://github.com/NyDrago" target="_blank" class="social-btn">Github</a>
+      <a href="https://www.roblox.com/users/1529799783/profile" target="_blank" class="social-btn">Roblox Profile</a>
+    </div>
+  </div>
+
+  <div id="projects-section" class="center-box">
+    <h1 class="box-title" style="font-size: 1.5rem; opacity: 0.8;">sorry but i actually have nothing to show</h1>
+    <div class="video-wrapper">
+      <iframe id="project-video" width="100%" height="280" 
+        src="https://www.youtube.com/embed/7rLfVZE0XQ0?enablejsapi=1" 
+        frameborder="0" allow="autoplay; fullscreen" allowfullscreen>
+      </iframe>
+    </div>
+    <p class="box-text" style="font-style: italic; opacity: 0.7; font-size: 0.8rem;">
+      I have written many codes for others that I cannot show. Private projects will be added soon.
+    </p>
+  </div>
+
+  <div id="cert-section" class="center-box scrollable-pill">
+    <h1 class="box-title">Certificates</h1>
+    
+    <div class="cert-grid">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352742354550925/photo.png?ex=69ed35e9&is=69ebe469&hm=19122151a4958e0e6182395b931a8eb55e3616fc252941d666a97ca7161e3f06&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352743034163364/photo_1.png?ex=69ed35e9&is=69ebe469&hm=6e98afe520a578a76276b7c76a5eb997121c159df2797a748ded5545f6dd4be0&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352743558582413/photo_2.png?ex=69ed35e9&is=69ebe469&hm=652e221ed3e6eda442168fe730eddb79276c50c4f6b365eecad60fc8ce27fcc7&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352744128872619/photo_3.png?ex=69ed35e9&is=69ebe469&hm=583b7bec290090b0d73d69f5721f614ad0f9987447e54bb4e0ed22aa182dbd99&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352746326691932/photo_7.png?ex=69ed35ea&is=69ebe46a&hm=a0465645ac212397a6d028ac24211f33441b4cf76658484af7db8bea2a19b8dd&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352745752068126/photo_6.png?ex=69ed35ea&is=69ebe46a&hm=ebba29ddbb225e4776887ca52b90b33823fdca9e0ea1573df128b4c443253983&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352745185706175/photo_5.png?ex=69ed35e9&is=69ebe469&hm=f0333e00c51ac3698dade4d966189aa31f4ed95533dcf89f07d684c2a864646d&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497352744657359029/photo_4.png?ex=69ed35e9&is=69ebe469&hm=582e7f2b1ffc92bbcf1d068b9bb81696814865aefae3c38c8ffc1f78bf5a19f3&" class="cert-img" onclick="openImage(this.src)">
+      <img src="https://cdn.discordapp.com/attachments/1097094550260043837/1497357423986344130/Screenshot_20260425-010437_Samsung_Notes.jpg?ex=69ed3a45&is=69ebe8c5&hm=55448c8c789b8637e2c40281b8eaeb7f8599df99fa28656aaed12a9eb1110cb8&" class="cert-img" onclick="openImage(this.src)" style="grid-column: span 4; justify-self: center; width: 30%;">
+    </div>
+
+    <p class="box-text" style="margin-top: 25px; opacity: 0.6; font-size: 0.8rem;">
+      *All certificates are issued by author
+    </p>
+  </div>
+
+  <div id="lang-bar" class="language-bar">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Lua-Logo.svg/960px-Lua-Logo.svg.png">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/960px-ISO_C%2B%2B_Logo.svg.png">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/C_Sharp_Logo_2023.svg/960px-C_Sharp_Logo_2023.svg.png">
+    <img src="https://www.freepnglogos.com/uploads/javascript-png/js-logo-png-5.png">
+    <img src="https://img.icons8.com/?size=100&id=20909&format=png&color=000000">
+    <img src="https://img.icons8.com/?size=100&id=7gdY5qNXaKC0&format=png&color=000000">
+    <img src="https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/community/logos/python-logo-only.png">
+    <img src="https://img.icons8.com/?size=100&id=gVK745a4Vaur&format=png&color=000000">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Typescript.svg/960px-Typescript.svg.png">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1920px-Gnu-bash-logo.svg.png">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Luau_Logo_2025_%28Programming_Lanaguage%29.svg/960px-Luau_Logo_2025_%28Programming_Lanaguage%29.svg.png">
+  </div>
+
+  <script>
+    let siteStarted = false;
+    let clickCount = 0;
+    let msgTimeout;
+
+    function startSite() {
+      if (siteStarted) return;
+      siteStarted = true;
+      const enter = document.getElementById('enter-screen');
+      enter.style.opacity = '0';
+      setTimeout(() => enter.style.display = 'none', 1000);
+
+      // Force Play and Unmute via YouTube PostMessage API
+      const audio = document.getElementById('bg-audio');
+      audio.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+      audio.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+
+      document.getElementById('speaker-svg').style.opacity = "1";
+      document.getElementById('speaker-wave').style.display = "block";
+    }
+
+    function handleSpeakerClick() {
+      if (!siteStarted) return;
+      clickCount++;
+      clearTimeout(msgTimeout);
+
+      if (clickCount === 1) { showSpeakerMsg("why would you click this? is the audio even playing."); }
+      else if (clickCount === 2) { showSpeakerMsg("oh? is it really playing? well then dont stop it."); }
+      else {
+        const audio = document.getElementById('bg-audio');
+        const svg = document.getElementById('speaker-svg');
+        const wave = document.getElementById('speaker-wave');
+        
+        if (svg.style.opacity === "0.4") {
+          audio.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+          svg.style.opacity = "1"; wave.style.display = "block";
+          showSpeakerMsg("fine, listen then");
+        } else {
+          audio.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+          svg.style.opacity = "0.4"; wave.style.display = "none";
+          showSpeakerMsg("okay i guess ill mute it. if its even running.");
+        }
+      }
+    }
+
+    function showSpeakerMsg(text) {
+      const msg = document.getElementById('speaker-msg');
+      msg.textContent = text; msg.style.opacity = "1";
+      msgTimeout = setTimeout(() => { msg.style.opacity = "0"; }, 2000);
+    }
+
+    function showSection(sectionId) {
+      document.querySelectorAll('.center-box').forEach(sec => {
+        sec.classList.remove('active-pill'); sec.style.display = 'none';
+      });
+      const target = document.getElementById(sectionId);
+      if (target) {
+        target.style.display = 'flex';
+        setTimeout(() => target.classList.add('active-pill'), 10);
+      }
+      // Update nav active state
+      document.querySelectorAll('.top-nav a').forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('onclick').includes(sectionId)) link.classList.add('active');
+      });
+
+      const bar = document.getElementById('lang-bar');
+      const isHome = (sectionId === 'home-section');
+      bar.style.opacity = isHome ? '1' : '0';
+      bar.style.transform = isHome ? 'translateX(-50%) translateY(0)' : 'translateX(-50%) translateY(20px)';
+      
+      bar.style.pointerEvents = isHome ? 'auto' : 'none';
+    }
+
+    // Typing Effect
+    const textElement = document.getElementById("typing-text");
+    const words = ["Programmer", "Violinist", "Student", "Developer", "Linux User"];
+    let wordIdx = 0, charIdx = 0, isDeleting = false;
+
+    function type() {
+      const currentWord = words[wordIdx];
+      textElement.textContent = isDeleting ? currentWord.substring(0, charIdx--) : currentWord.substring(0, charIdx++);
+      let speed = isDeleting ? 60 : 120;
+      if (!isDeleting && charIdx > currentWord.length) { speed = 2000; isDeleting = true; }
+      else if (isDeleting && charIdx < 0) { isDeleting = false; wordIdx = (wordIdx + 1) % words.length; speed = 500; }
+      setTimeout(type, speed);
+    }
+    type();
+
+    function openImage(src) {
+      const lb = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lightbox-img');
+      lbImg.src = src; lb.style.display = 'flex';
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+body {
+ 
+  background: #000 url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?q=80&w=1920&auto=format&fit=crop') no-repeat center center fixed;
+  background-size: cover;
+  font-family: 'Inter', -apple-system, sans-serif;
+  color: white;
+}
+
+
+.top-nav {
+  position: absolute;
+  top: 15px; 
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  z-index: 100;
+}
+
+.top-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.top-nav a.active, 
+.top-nav a:hover {
+  opacity: 1;
+}
+
+
+.pill-positioner {
+  position: absolute;
+  top: 15px; 
+  left: 20px;
+  z-index: 100;
+}
+
+.type-pill {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 8px 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+#typing-text {
+  color: #60a5fa;
+}
+
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 15px;
+  background-color: white;
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+
+.center-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;         /* You can adjust this width */
+  height: 300px;      
+  background: rgba(255, 255, 255, 0.03); 
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 40px;  
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  z-index: 5;           
+}
