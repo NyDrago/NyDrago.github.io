@@ -265,7 +265,7 @@
     <h1 class="box-title" style="margin-left: 60px;">Hey, I'm Temperance</h1>
     <p class="box-text">
       I have been a programmer since the age of 9 and I've worked in multiple teams. 
-      I code in many languages as seen below. Check the socials tab to contact me.
+      I code in many languages as seen below. Check the socials tab to contact me, or even check my certificates before you do so.
     </p>
   </div>
 
@@ -353,8 +353,8 @@
       clickCount++;
       clearTimeout(msgTimeout);
 
-      if (clickCount === 1) { showSpeakerMsg("why would you click this? is the audio even playing."); }
-      else if (clickCount === 2) { showSpeakerMsg("oh? is it really playing? well then dont stop it."); }
+      if (clickCount === 1) { showSpeakerMsg("why would you click this? is the song bad?"); }
+      else if (clickCount === 2) { showSpeakerMsg("or is it messing with the video thing? well i dont care."); }
       else {
         const audio = document.getElementById('bg-audio');
         const svg = document.getElementById('speaker-svg');
@@ -367,7 +367,7 @@
         } else {
           audio.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
           svg.style.opacity = "0.4"; wave.style.display = "none";
-          showSpeakerMsg("okay i guess ill mute it. if its even running.");
+          showSpeakerMsg("okay i guess ill mute it.");
         }
       }
     }
