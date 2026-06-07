@@ -1,6 +1,7 @@
 function startSite() {
       if (siteStarted) return;
       siteStarted = true;
+      console.log (MADEEE BY TEMPERANCE);
       const enter = document.getElementById('enter-screen');
       enter.style.opacity = '0';
       setTimeout(() => enter.style.display = 'none', 1000);
