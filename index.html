@@ -298,7 +298,9 @@
     <h1 class="box-title">Certificates</h1>
     
     <div class="cert-grid">
-   
+
+
+      <img src="certs/cert.jpg" class="cert-img" onclick="openImage(this.src)">
       <img src="certs/ya.png" class="cert-img" onclick="openImage(this.src)">
       <img src="certs/photo (1).png" class="cert-img" onclick="openImage(this.src)">
       <img src="certs/photo (2).png" class="cert-img" onclick="openImage(this.src)">
@@ -394,7 +396,7 @@
         target.style.display = 'flex';
         setTimeout(() => target.classList.add('active-pill'), 10);
       }
-      // Update nav active state
+      
       document.querySelectorAll('.top-nav a').forEach(link => {
         link.classList.remove('active');
         if (link.getAttribute('onclick').includes(sectionId)) link.classList.add('active');
@@ -410,7 +412,7 @@
 
     // Typing Effect
     const textElement = document.getElementById("typing-text");
-    const words = ["Programmer", "Violinist", "Student", "Developer", "Linux User"];
+    const words = ["Programmer", "Violinist", "Student", "Developer", "arch linux user btw"];
     let wordIdx = 0, charIdx = 0, isDeleting = false;
 
     function type() {
