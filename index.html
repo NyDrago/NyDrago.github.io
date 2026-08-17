@@ -295,11 +295,11 @@
 
   <div style="display:none">
     <iframe id="bg-audio" width="0" height="0" 
-      src="https://www.youtube.com/embed/WDB-F8rJnXI?si=lqBz_WNVWNimoUFe&autoplay=1&loop=1&playlist=Aox-rQT_Cv4&mute=0" 
+      src="https://www.youtube.com/embed/Aox-rQT_Cv4?enablejsapi=1&autoplay=1&loop=1&playlist=Aox-rQT_Cv4&mute=0" 
       allow="autoplay" frameborder="0">
     </iframe>
   </div>
- 
+  
   <div id="lightbox" onclick="this.style.display='none'"><img src="" id="lightbox-img"></div>
 
   <!-- [made by nydrago/temperance/nizar do not copy] -->
@@ -358,7 +358,6 @@
   <div id="cert-section" class="center-box scrollable-pill">
     <h1 class="box-title">Certificates</h1>
     <div class="cert-grid">
-      <img src="certs/certmicro.png" class="cert-img" onclick="openImage(this.src)">
       <img src="certs/cert.jpg" class="cert-img" onclick="openImage(this.src)">
       <img src="certs/ya.png" class="cert-img" onclick="openImage(this.src)">
       <img src="certs/photo (1).png" class="cert-img" onclick="openImage(this.src)">
@@ -430,11 +429,12 @@ function spawnEyes() {
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
 
+ 
   const textElements = enterScreen.querySelectorAll('span');
   const excludedRects = Array.from(textElements).map(el => el.getBoundingClientRect());
 
-  const padding = 20;
-  const eyeRadius = 55;
+  const padding = 20; 
+  const eyeRadius = 55; 
 
   function isOverlappingText(x, y) {
     return excludedRects.some(rect => {
@@ -455,9 +455,9 @@ function spawnEyes() {
     });
   }
 
-  const marginX = 80;
+  const marginX = 80; 
   const marginY = 60;
-  const maxAttempts = 200;
+  const maxAttempts = 200; 
 
   for (let i = 0; i < count; i++) {
     let attempts = 0;
@@ -482,7 +482,7 @@ function spawnEyes() {
       eyeEl.className = `eye ${orientation}`;
       eyeEl.style.left = `${posX}px`;
       eyeEl.style.top = `${posY}px`;
-      eyeEl.style.transform = 'translate(-50%, -50%)';
+      eyeEl.style.transform = 'translate(-50%, -50%)'; // Center aligning position
 
       const pupilEl = document.createElement('div');
       pupilEl.className = 'pupil';
@@ -517,27 +517,28 @@ function spawnEyes() {
 
     window.addEventListener('mousemove', (e) => updateEyes(e.clientX, e.clientY));
 
+    let isMuted = false;
+
     // [made by nydrago/temperance/nizar do not copy]
     function handleSpeakerClick() {
       if (!siteStarted) return;
       clickCount++;
       clearTimeout(msgTimeout);
 
-      if (clickCount === 1) { showSpeakerMsg("why would you click this? is the song bad?"); }
-      else if (clickCount === 2) { showSpeakerMsg("or is it messing with the video thing? well i dont care."); }
-      else {
-        const audio = document.getElementById('bg-audio');
-        const svg = document.getElementById('speaker-svg');
-        const wave = document.getElementById('speaker-wave');
-        if (svg.style.opacity === "0.4") {
-          audio.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-          svg.style.opacity = "1"; wave.style.display = "block";
-          showSpeakerMsg("fine, listen then");
-        } else {
-          audio.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-          svg.style.opacity = "0.4"; wave.style.display = "none";
-          showSpeakerMsg("okay i guess ill mute it.");
-        }
+      const audio = document.getElementById('bg-audio');
+      const svg = document.getElementById('speaker-svg');
+      const wave = document.getElementById('speaker-wave');
+
+      if (isMuted) {
+        audio.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
+        svg.style.opacity = "1"; wave.style.display = "block";
+        isMuted = false;
+        showSpeakerMsg("fine, listen then");
+      } else {
+        audio.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
+        svg.style.opacity = "0.4"; wave.style.display = "none";
+        isMuted = true;
+        showSpeakerMsg(clickCount === 1 ? "why would you click this? is the song bad?" : "okay i guess ill mute it.");
       }
     }
 
@@ -555,7 +556,8 @@ function spawnEyes() {
       const target = document.getElementById(sectionId);
       if (target) {
         target.style.display = 'flex';
-        setTimeout(() => target.classList.add('active-pill'), 10);
+        void target.offsetWidth;
+        target.classList.add('active-pill');
       }
       document.querySelectorAll('.top-nav a').forEach(link => {
         link.classList.remove('active');
