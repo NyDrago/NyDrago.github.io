@@ -226,17 +226,62 @@
 
     .cursor { display: inline-block; width: 2px; height: 14px; background-color: white; animation: blink 1s infinite; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-  </style>
+
+    .eyes-wrap {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .eye {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.04);
+    }
+
+    .eye.horizontal {
+      width: 90px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .eye.vertical {
+      width: 50px;
+      height: 90px;
+      border-radius: 50%;
+    }
+
+.pupil {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #0a0a0a;
+  transform: translate(-50%, -50%);
+  transition: transform 0.05s linear;
+}
+
+    </style>
 </head>
 <body>
   <!-- [made by nydrago/temperance/nizar do not copy] -->
-  <div id="enter-screen" onclick="startSite()" style="flex-direction: column; gap: 15px; text-align: center;">
+  <div id="enter-screen" onclick="startSite()" style="flex-direction: column; gap: 15px; text-align: center; position: relative;">
     <span style="letter-spacing: 2px; color: rgba(255,255,255,0.4); text-transform: uppercase; font-size: 11px; max-width: 80%;">
       This Site Has No Mobile Support Because The Creator Believes No Developer Has No Computer. If you go into landscape mode it might work slightly though. (or just have a big screen)
     </span>
     <span style="letter-spacing: 5px; color: rgba(255,255,255,0.2); text-transform: uppercase; font-size: 12px; font-weight: bold;">
       [ click to enter? ]
     </span>
+
+    <div class="eyes-wrap" id="eyes-wrap"></div>
   </div>
 
   <!-- [made by nydrago/temperance/nizar do not copy] -->
@@ -365,6 +410,111 @@
       document.getElementById('speaker-svg').style.opacity = "1";
       document.getElementById('speaker-wave').style.display = "block";
     }
+
+   
+    const EYE_COUNT_MIN = 15;
+const EYE_COUNT_MAX = 20;
+const EYE_PUPIL_MAX_OFFSET = 20;
+const MIN_DISTANCE_BETWEEN_EYES = 110;
+let eyes = [];
+
+function spawnEyes() {
+  const wrap = document.getElementById('eyes-wrap');
+  const enterScreen = document.getElementById('enter-screen');
+  if (!wrap || !enterScreen) return;
+  wrap.innerHTML = '';
+  eyes = [];
+
+  const count = Math.floor(Math.random() * (EYE_COUNT_MAX - EYE_COUNT_MIN + 1)) + EYE_COUNT_MIN;
+  const screenWidth = window.innerWidth;
+  const screenHeight = window.innerHeight;
+
+  const textElements = enterScreen.querySelectorAll('span');
+  const excludedRects = Array.from(textElements).map(el => el.getBoundingClientRect());
+
+  const padding = 20;
+  const eyeRadius = 55;
+
+  function isOverlappingText(x, y) {
+    return excludedRects.some(rect => {
+      return (
+        x + eyeRadius > rect.left - padding &&
+        x - eyeRadius < rect.right + padding &&
+        y + eyeRadius > rect.top - padding &&
+        y - eyeRadius < rect.bottom + padding
+      );
+    });
+  }
+
+  function isTooCloseToOtherEyes(x, y) {
+    return eyes.some(item => {
+      const dx = item.x - x;
+      const dy = item.y - y;
+      return Math.hypot(dx, dy) < MIN_DISTANCE_BETWEEN_EYES;
+    });
+  }
+
+  const marginX = 80;
+  const marginY = 60;
+  const maxAttempts = 200;
+
+  for (let i = 0; i < count; i++) {
+    let attempts = 0;
+    let validPosition = false;
+    let posX = 0;
+    let posY = 0;
+
+    while (!validPosition && attempts < maxAttempts) {
+      attempts++;
+      posX = marginX + Math.random() * (screenWidth - marginX * 2);
+      posY = marginY + Math.random() * (screenHeight - marginY * 2);
+
+      if (!isOverlappingText(posX, posY) && !isTooCloseToOtherEyes(posX, posY)) {
+        validPosition = true;
+      }
+    }
+
+    if (validPosition) {
+      const orientation = Math.random() < 0.5 ? 'horizontal' : 'vertical';
+
+      const eyeEl = document.createElement('div');
+      eyeEl.className = `eye ${orientation}`;
+      eyeEl.style.left = `${posX}px`;
+      eyeEl.style.top = `${posY}px`;
+      eyeEl.style.transform = 'translate(-50%, -50%)';
+
+      const pupilEl = document.createElement('div');
+      pupilEl.className = 'pupil';
+      eyeEl.appendChild(pupilEl);
+      wrap.appendChild(eyeEl);
+
+      eyes.push({ eye: eyeEl, pupil: pupilEl, x: posX, y: posY });
+    }
+  }
+}
+
+    spawnEyes();
+
+    function updateEyes(mouseX, mouseY) {
+      eyes.forEach(({ eye, pupil }) => {
+        if (!eye || !pupil) return;
+        const rect = eye.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+
+        const dx = mouseX - centerX;
+        const dy = mouseY - centerY;
+        const distance = Math.min(Math.hypot(dx, dy), EYE_PUPIL_MAX_OFFSET);
+        const angle = Math.atan2(dy, dx);
+
+        const offsetX = Math.cos(angle) * distance;
+        const offsetY = Math.sin(angle) * distance;
+
+        pupil.style.transform = `translate(calc(-50% + ${offsetX}px), calc(-50% + ${offsetY}px))`;
+      });
+    }
+
+    window.addEventListener('mousemove', (e) => updateEyes(e.clientX, e.clientY));
 
     // [made by nydrago/temperance/nizar do not copy]
     function handleSpeakerClick() {
