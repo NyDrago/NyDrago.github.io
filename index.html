@@ -429,12 +429,11 @@ function spawnEyes() {
   const screenWidth = window.innerWidth;
   const screenHeight = window.innerHeight;
 
- 
   const textElements = enterScreen.querySelectorAll('span');
   const excludedRects = Array.from(textElements).map(el => el.getBoundingClientRect());
 
-  const padding = 20; 
-  const eyeRadius = 55; 
+  const padding = 20;
+  const eyeRadius = 55;
 
   function isOverlappingText(x, y) {
     return excludedRects.some(rect => {
@@ -455,9 +454,9 @@ function spawnEyes() {
     });
   }
 
-  const marginX = 80; 
+  const marginX = 80;
   const marginY = 60;
-  const maxAttempts = 200; 
+  const maxAttempts = 200;
 
   for (let i = 0; i < count; i++) {
     let attempts = 0;
@@ -482,7 +481,7 @@ function spawnEyes() {
       eyeEl.className = `eye ${orientation}`;
       eyeEl.style.left = `${posX}px`;
       eyeEl.style.top = `${posY}px`;
-      eyeEl.style.transform = 'translate(-50%, -50%)'; // Center aligning position
+      eyeEl.style.transform = 'translate(-50%, -50%)';
 
       const pupilEl = document.createElement('div');
       pupilEl.className = 'pupil';
