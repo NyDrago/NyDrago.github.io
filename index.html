@@ -295,7 +295,7 @@
 
   <div style="display:none">
     <iframe id="bg-audio" width="0" height="0" 
-      src="https://www.youtube.com/embed/Aox-rQT_Cv4?enablejsapi=1&autoplay=1&loop=1&playlist=Aox-rQT_Cv4&mute=0" 
+      src="https://www.youtube.com/embed/WDB-F8rJnXI?si=SWawbmhO8xF9TV_n?enablejsapi=1&autoplay=1&loop=1&playlist=Aox-rQT_Cv4&mute=0" 
       allow="autoplay" frameborder="0">
     </iframe>
   </div>
@@ -524,6 +524,9 @@ function spawnEyes() {
       clickCount++;
       clearTimeout(msgTimeout);
 
+      if (clickCount === 1) { showSpeakerMsg("why would you click this? is the song bad?"); return; }
+      if (clickCount === 2) { showSpeakerMsg("or is it messing with the video thing? well i dont care."); return; }
+
       const audio = document.getElementById('bg-audio');
       const svg = document.getElementById('speaker-svg');
       const wave = document.getElementById('speaker-wave');
@@ -537,7 +540,7 @@ function spawnEyes() {
         audio.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
         svg.style.opacity = "0.4"; wave.style.display = "none";
         isMuted = true;
-        showSpeakerMsg(clickCount === 1 ? "why would you click this? is the song bad?" : "okay i guess ill mute it.");
+        showSpeakerMsg("okay i guess ill mute it.");
       }
     }
 
