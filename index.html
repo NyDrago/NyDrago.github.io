@@ -224,6 +224,48 @@
     .language-bar img { height: 38px; opacity: 0.7; transition: 0.3s; }
     .language-bar img:hover { transform: translateY(-8px) scale(1.2); opacity: 1; }
 
+    /* Tooltip for language bar icons */
+    .lang-icon {
+      position: relative;
+      display: inline-block;
+    }
+
+    .lang-icon .lang-tooltip {
+      position: absolute;
+      bottom: calc(100% + 14px);
+      left: 50%;
+      transform: translateX(-50%) translateY(6px);
+      background: rgba(20, 20, 20, 0.9);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: white;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+      padding: 6px 12px;
+      border-radius: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      z-index: 200;
+    }
+
+    .lang-icon .lang-tooltip::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 5px solid transparent;
+      border-top-color: rgba(20, 20, 20, 0.9);
+    }
+
+    .lang-icon:hover .lang-tooltip {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
     .cursor { display: inline-block; width: 2px; height: 14px; background-color: white; animation: blink 1s infinite; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
@@ -376,19 +418,58 @@
 
   <!-- [made by nydrago/temperance/nizar do not copy] -->
   <div id="lang-bar" class="language-bar">
-    <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/rust-programming-language-icon.png">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Lua-Logo.svg/960px-Lua-Logo.svg.png">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/960px-ISO_C%2B%2B_Logo.svg.png">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/C_Sharp_Logo_2023.svg/960px-C_Sharp_Logo_2023.svg.png">
-    <img src="https://www.freepnglogos.com/uploads/javascript-png/js-logo-png-5.png">
-    <img src="https://img.icons8.com/?size=100&id=20909&format=png&color=000000">
-    <img src="https://img.icons8.com/?size=100&id=7gdY5qNXaKC0&format=png&color=000000">
-    <img src="https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/community/logos/python-logo-only.png">
-    <img src="https://img.icons8.com/?size=100&id=gVK745a4Vaur&format=png&color=000000">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Typescript.svg/960px-Typescript.svg.png">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1920px-Gnu-bash-logo.svg.png">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Luau_Logo_2025_%28Programming_Lanaguage%29.svg/960px-Luau_Logo_2025_%28Programming_Lanaguage%29.svg.png">
-    <img src="https://sass-lang.com/assets/img/logos/logo.svg">
+    <span class="lang-icon">
+      <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/rust-programming-language-icon.png">
+      <span class="lang-tooltip">10/10 language im like 7/10 at it</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Lua-Logo.svg/960px-Lua-Logo.svg.png">
+      <span class="lang-tooltip">mastered it but hate it my skills 10/10 in it</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/ISO_C%2B%2B_Logo.svg/960px-ISO_C%2B%2B_Logo.svg.png">
+      <span class="lang-tooltip">10/10 but im 6/10 at it</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/C_Sharp_Logo_2023.svg/960px-C_Sharp_Logo_2023.svg.png">
+      <span class="lang-tooltip">10/10 but same with all of c id say im 6/10</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://www.freepnglogos.com/uploads/javascript-png/js-logo-png-5.png">
+      <span class="lang-tooltip">0 fun 4/10 but im 8/10 at it</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://img.icons8.com/?size=100&id=20909&format=png&color=000000">
+      <span class="lang-tooltip">dont enjoy webs 5/10 but im 10/10</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://img.icons8.com/?size=100&id=7gdY5qNXaKC0&format=png&color=000000">
+      <span class="lang-tooltip">grr web developing sucks but again its easy im 10/10</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://s3.dualstack.us-east-2.amazonaws.com/pythondotorg-assets/media/community/logos/python-logo-only.png">
+      <span class="lang-tooltip">mid but im 10/10</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://img.icons8.com/?size=100&id=gVK745a4Vaur&format=png&color=000000">
+      <span class="lang-tooltip">i dont actually know this im larping it im a 2/10 in it</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Typescript.svg/960px-Typescript.svg.png">
+      <span class="lang-tooltip">ehh im 6/10</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Gnu-bash-logo.svg/1920px-Gnu-bash-logo.svg.png">
+      <span class="lang-tooltip">i live on it daily 10/10</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Luau_Logo_2025_%28Programming_Lanaguage%29.svg/960px-Luau_Logo_2025_%28Programming_Lanaguage%29.svg.png">
+      <span class="lang-tooltip">PLACEHOLDER_LUAU</span>
+    </span>
+    <span class="lang-icon">
+      <img src="https://sass-lang.com/assets/img/logos/logo.svg">
+      <span class="lang-tooltip">PLACEHOLDER_SASS</span>
+    </span>
   </div>
 
   <!-- [made by nydrago/temperance/nizar do not copy] -->
