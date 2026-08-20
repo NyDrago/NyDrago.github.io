@@ -3,4 +3,7 @@
 live in [Here.](https://nydrago.github.io)
 
 
-**portfolio made by nydrago do not copy**
+**portfolio**
+
+
+(made by nydrago)
